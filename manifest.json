@@ -1,6 +1,6 @@
 {
-  "name": "SMVDU Floris — Campus Digital Herbarium",
-  "short_name": "SMVDU Floris",
+  "name": "SMVDU Green Atlas — Campus Digital Herbarium",
+  "short_name": "Green Atlas",
   "description": "Spatial GIS, vascular flora repository, and digital herbarium for Shri Mata Vaishno Devi University, Kakryal, Katra.",
   "start_url": "./index.html",
   "scope": "./",
@@ -69,7 +69,7 @@
     {
       "name": "Flora Database",
       "short_name": "Database",
-      "description": "Access the 116 vascular taxa catalog and plaque tools",
+      "description": "Access the 175 vascular taxa catalog and plaque tools",
       "url": "./database.html",
       "icons": [
         {

@@ -114,39 +114,98 @@
         });
 
         /*
-         * Retractable Navigation Drawer Handler (Home Page)
+         * Retractable Navigation Drawer Handler (Hover + Click Support)
          */
         const menuBtn = document.getElementById('btn-toggle-menu');
         const navDrawer = document.getElementById('retractable-nav-drawer');
         const menuIcon = document.getElementById('menu-icon');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
 
         if (menuBtn && navDrawer) {
+            let closeTimer = null;
+
+            function openDrawer() {
+                if (closeTimer) clearTimeout(closeTimer);
+                navDrawer.classList.add('open');
+                navDrawer.setAttribute('aria-hidden', 'false');
+                menuBtn.setAttribute('aria-expanded', 'true');
+                if (menuIcon) {
+                    menuIcon.className = 'fa-solid fa-xmark';
+                }
+            }
+
+            function closeDrawer() {
+                navDrawer.classList.remove('open');
+                navDrawer.setAttribute('aria-hidden', 'true');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                if (menuIcon) {
+                    menuIcon.className = 'fa-solid fa-bars';
+                }
+            }
+
+            // Hover behavior is only helpful on devices with a real pointer.
+            const supportsHover = window.matchMedia?.('(hover: hover)').matches;
+            function queueClose() {
+                closeTimer = setTimeout(closeDrawer, 180);
+            }
+
+            if (supportsHover) {
+                menuBtn.addEventListener('mouseenter', openDrawer);
+                navDrawer.addEventListener('mouseenter', openDrawer);
+                menuBtn.addEventListener('mouseleave', queueClose);
+                navDrawer.addEventListener('mouseleave', queueClose);
+            }
+
+            // Manual toggle for click / touch devices
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const isOpen = navDrawer.classList.toggle('open');
-                navDrawer.setAttribute('aria-hidden', !isOpen);
-                if (menuIcon) {
-                    menuIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+                if (navDrawer.classList.contains('open')) {
+                    closeDrawer();
+                } else {
+                    openDrawer();
                 }
             });
 
-            // Close when clicking anywhere outside
+            // Close when clicking anywhere outside, EXCEPT when clicking the theme toggle button
             document.addEventListener('click', (e) => {
-                if (!navDrawer.contains(e.target) && !menuBtn.contains(e.target)) {
-                    navDrawer.classList.remove('open');
-                    navDrawer.setAttribute('aria-hidden', 'true');
-                    if (menuIcon) {
-                        menuIcon.className = 'fa-solid fa-bars';
-                    }
+                const clickedThemeToggle = themeToggleBtn && (themeToggleBtn === e.target || themeToggleBtn.contains(e.target));
+                if (
+                    !navDrawer.contains(e.target) &&
+                    !menuBtn.contains(e.target) &&
+                    !clickedThemeToggle
+                ) {
+                    closeDrawer();
                 }
             });
         }
 
         /*
-         * Theme toggle.
+         * Sticky navigation state. The header remains in document flow, while
+         * the wordmark/controls row eases to the viewport edge once scrolled.
          */
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const pageHeader = document.querySelector('.home-header');
+        if (pageHeader) {
+            let headerFrame = null;
 
+            const syncHeaderState = () => {
+                pageHeader.classList.toggle('is-scrolled', window.scrollY > 2);
+                headerFrame = null;
+            };
+
+            const requestHeaderSync = () => {
+                if (headerFrame !== null) return;
+                headerFrame = window.requestAnimationFrame(syncHeaderState);
+            };
+
+            syncHeaderState();
+            window.addEventListener('scroll', requestHeaderSync, { passive: true });
+            window.addEventListener('resize', requestHeaderSync);
+            window.addEventListener('pageshow', syncHeaderState);
+        }
+
+        /*
+         * Theme toggle handler.
+         */
         themeToggleBtn?.addEventListener('click', () => {
             const currentTheme =
                 document.documentElement.getAttribute('data-theme') ||
@@ -157,7 +216,7 @@
                     ? 'light'
                     : 'dark';
 
-            // An explicit click creates a persistent user preference.
+            // Changing theme retains whatever open state the nav drawer has
             applyTheme(nextTheme, true);
         });
 
@@ -172,20 +231,14 @@
             if (VALID_THEMES.has(event.newValue)) {
                 applyTheme(event.newValue);
             } else {
-                // If the explicit preference is removed,
-                // return to the system preference.
                 applyTheme(getSystemTheme());
             }
         });
 
         /*
-         * Follow the operating-system theme only while
-         * the user has not explicitly selected a theme.
+         * Operating system theme change synchronization.
          */
-        const mediaQuery = window.matchMedia?.(
-            '(prefers-color-scheme: dark)'
-        );
-
+        const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
         mediaQuery?.addEventListener?.('change', () => {
             if (!getStoredTheme()) {
                 applyTheme(getSystemTheme());
@@ -193,13 +246,10 @@
         });
 
         /*
-         * Register the service worker if supported.
+         * Register service worker.
          */
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {
-                // Service worker registration failure should not
-                // prevent the rest of the application from working.
-            });
+            navigator.serviceWorker.register('sw.js').catch(() => {});
         }
     });
 })();
@@ -207,31 +257,22 @@
 /* =========================================================
    PAGE & WINDOW TRANSITIONS
    ========================================================= */
-
 (() => {
-    const reduceMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Window/page opening
     if (!reduceMotion) {
         document.body.classList.add('page-enter');
-
         window.addEventListener('pageshow', () => {
             document.body.classList.remove('page-exit');
             document.body.classList.add('page-enter');
         });
     }
 
-    // Page switching
     document.addEventListener('click', (event) => {
         const link = event.target.closest('a[href]');
-
         if (!link || reduceMotion) return;
 
         const href = link.getAttribute('href');
-
-        // Ignore links that should not trigger a page transition
         if (
             !href ||
             href.startsWith('#') ||
@@ -243,14 +284,9 @@
             return;
         }
 
-        // Ignore external URLs
         const destination = new URL(href, window.location.href);
+        if (destination.origin !== window.location.origin) return;
 
-        if (destination.origin !== window.location.origin) {
-            return;
-        }
-
-        // Ignore same-page links
         if (
             destination.pathname === window.location.pathname &&
             destination.search === window.location.search &&
@@ -260,7 +296,6 @@
         }
 
         event.preventDefault();
-
         document.body.classList.remove('page-enter');
         document.body.classList.add('page-exit');
 
@@ -269,7 +304,6 @@
         }, 180);
     });
 
-    // Browser back/forward cache
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
             document.body.classList.remove('page-exit');

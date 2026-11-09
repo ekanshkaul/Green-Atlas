@@ -1,11 +1,11 @@
 /**
- * SMVDU Floris: Progressive Web App Service Worker (sw.js)
+ * SMVDU Green Atlas: Progressive Web App Service Worker (sw.js)
  * High-Performance Offline Caching & Non-Blocking GIS Tile Pipeline
  * Shri Mata Vaishno Devi University, Kakryal, Katra
  */
 
-const CACHE_NAME = 'smvdu-floris-v2.3.0';
-const GIS_TILE_CACHE = 'smvdu-floris-gis-tiles-v2';
+const CACHE_NAME = 'smvdu-green-atlas-v3.1.1';
+const GIS_TILE_CACHE = 'smvdu-green-atlas-gis-tiles-v3';
 
 // 1. Static App Shell & Core Assets
 const APP_SHELL = [
@@ -16,6 +16,10 @@ const APP_SHELL = [
     './research.html',
     './safety.html',
     './manifest.json',
+    './icons/favicon-32x32.png',
+    './icons/icon.svg',
+    './icons/icon-192x192.png',
+    './icons/icon-512x512.png',
     './css/style.css',
     './css/database.css',
     './css/maps.css',
@@ -24,21 +28,23 @@ const APP_SHELL = [
     './js/data.js',
     './js/main.js',
     './js/database.js',
-    './js/maps.js',
+    './js/qrcode.min.js',
+    './js/maps-core.js',
+    './js/maps-controls.js',
     './js/research.js',
     './js/safety.js'
 ];
 
 // 2. External CDN Vendor Libraries
 const EXTERNAL_DEPENDENCIES = [
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap',
+    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
     'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
     'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css',
     'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css',
     'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js',
-    'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'
+    'https://unpkg.com/geographiclib@1.52.1/geographiclib.min.js'
 ];
 
 // =========================================================================

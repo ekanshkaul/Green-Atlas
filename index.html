@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMVDU Floris — Digital Herbarium &amp; Spatial GIS Portal</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'sha256-qniwu46ODIC4rO19xw/cZGBTXKro7w2Y8PqLPO2aABE=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com https://cdnjs.cloudflare.com https://api.qrserver.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://server.arcgisonline.com https://api.qrserver.com; worker-src 'self'; manifest-src 'self'">
+    <title>SMVDU Green Atlas — Digital Herbarium &amp; Spatial GIS Portal</title>
     
     <!-- Instant Theme Loader: Place this BEFORE your CSS links -->
     <script>
@@ -19,25 +21,34 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- Master CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="home-page">
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
     <!-- Retractable Header Interface -->
     <header class="home-header">
         <div class="home-nav-container">
             <!-- Retractable Nav Trigger Button -->
-            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" title="Menu">
+            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" aria-controls="retractable-nav-drawer" aria-expanded="false" title="Menu">
                 <i class="fa-solid fa-bars" id="menu-icon"></i>
             </button>
+
+            <!-- Atlas Wordmark -->
+            <a href="index.html" class="nav-brand" aria-label="Green Atlas — Home">
+                <span class="nav-brand-atlas">GREEN ATLAS</span>
+            </a>
 
             <!-- Theme Toggle Button -->
             <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
@@ -57,11 +68,15 @@
         </nav>
     </header>
 
-    <main class="nexus-wrapper home-main-wrapper">
+    <main id="main-content" tabindex="-1" class="nexus-wrapper home-main-wrapper">
 
-        <!-- Centered Institutional Hero -->
+        <!-- Centered Institutional Hero with Stacked Typographic Hierarchy -->
         <section class="portal-identity-hero">
-            <h1 class="portal-master-title">SMVDU FLORIS</h1>
+            <div class="portal-title-stack">
+                <span class="portal-prefix-smvdu">SMVDU</span>
+                <h1 class="portal-master-title">Green Atlas</h1>
+            </div>
+            <p class="portal-action-tagline">Identify • Document • Map • Connect</p>
             <p class="portal-lead-tagline">
                 Institutional Repository of Campus Vascular Flora &amp; Spatial Microclimate Stratification
             </p>
@@ -70,9 +85,9 @@
         <!-- Academic Narrative & Scope -->
         <section class="portal-scope-card">
             <div class="scope-text-block">
-                <h2>Campus Ecological Mission</h2>
+                <h2 class="academic-mission-title">Campus Ecological Mission</h2>
                 <p>
-                    <strong>SMVDU Floris</strong> serves as the official digital herbarium, vegetation GIS atlas, and spatial taxonomic directory for Shri Mata Vaishno Devi University, Kakryal (Katra, J&amp;K). Situated in the dynamic bio-geographical ecotone of the Trikuta foothills at elevations between 780m and 880m above sea level, the university campus supports a unique mosaic of Shiwalik chir pine forest, xerophytic scrublands, broadleaf ravines, and planted academic avenues.
+                    <strong>SMVDU Green Atlas</strong> serves as the official digital herbarium, vegetation GIS atlas, and spatial taxonomic directory for Shri Mata Vaishno Devi University, Kakryal (Katra, J&amp;K). Situated in the dynamic bio-geographical ecotone of the Trikuta foothills at elevations between 780m and 880m above sea level, the university campus supports a unique mosaic of Shiwalik chir pine forest, xerophytic scrublands, broadleaf ravines, and planted academic avenues.
                 </p>
                 <p>
                     The platform bridges physical field taxonomy and spatial GIS telemetry through standardized physical QR tree plaques mounted on campus specimens. Researchers, students, and visitors can access scientific binomials, verified authority citations, Dogri vernacular ethnobotany, phenological flowering schedules, and clinical toxicity indices directly in the field.
@@ -98,22 +113,22 @@
             </div>
         </section>
 
-        <!-- Consolidated Data Deck (Consolidated metrics above footer) -->
-        <section class="consolidated-data-deck">
+        <!-- Consolidated Data Deck (Contained in matching card enclosure) -->
+        <section class="portal-scope-card telemetry-card-box">
             <div class="data-deck-header">
-                <span class="eyebrow-tag">ECOLOGICAL TELEMETRY AT A GLANCE</span>
+                <span class="eyebrow-tag telemetry-eyebrow">ECOLOGICAL TELEMETRY AT A GLANCE</span>
                 <h3>Consolidated Campus Ecological Metrics</h3>
             </div>
             
             <div class="consolidated-stats-grid">
                 <div class="stat-card">
                     <span class="stat-label">Cataloged Vascular Taxa</span>
-                    <span class="stat-value" id="hero-stat-taxa">116</span>
-                    <span class="density-meta">Verified campus specimens</span>
+                    <span class="stat-value" id="hero-stat-taxa">175</span>
+                    <span class="density-meta">73 verified · 116 georeferenced</span>
                 </div>
                 <div class="stat-card gold">
                     <span class="stat-label">Botanical Plant Families</span>
-                    <span class="stat-value" id="hero-stat-families">50+</span>
+                    <span class="stat-value" id="hero-stat-families">69</span>
                     <span class="density-meta">Major sub-Himalayan lineages</span>
                 </div>
                 <div class="stat-card cyan">
@@ -134,7 +149,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-col">
-                <h4>SMVDU Floris Project</h4>
+                <h4>SMVDU Green Atlas Project</h4>
                 <p> Engineered and developed independently by <strong>Ekansh Kaul</strong>. Botanical records and field survey telemetry compiled with the assistance from the <strong>Department of Design Your Degree</strong>, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K – 182320.</p>
             </div>
             <div class="footer-col">
@@ -155,7 +170,6 @@
     </footer>
 
     <!-- Global Scripts -->
-    <script src="js/data.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

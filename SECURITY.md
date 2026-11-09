@@ -2,18 +2,18 @@
 
 ## Supported Versions
 
-Only the latest deployment served on the `main` branch receives active security updates and vulnerability patches.
+Only the latest deployment served on the `green-atlas-v3.1.1` branch (hereafter referred to as the "main" branch) receives active security updates and vulnerability patches."
 
 | Version / Branch | Supported          |
 | ----------------- | ------------------ |
-| `main` (Latest)   | :white_check_mark: |
+| main (Latest)   | :white_check_mark: |
 | Older releases    | :x:                |
 
 ---
 
 ## Reporting a Vulnerability
 
-We take the security and integrity of the **SMVDU Floris** platform, its botanical datasets, and its client-side infrastructure seriously.
+We take the security and integrity of the **SMVDU GREEN ATLAS** platform, its botanical datasets, and its client-side infrastructure seriously.
 
 If you identify a security vulnerability (such as Cross-Site Scripting, sensitive data leakage, or service worker integrity issues):
 
